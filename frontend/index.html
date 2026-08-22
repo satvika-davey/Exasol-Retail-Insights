@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Retail Insights — Powered by Exasol</title>
+<link rel="stylesheet" href="style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <h1>Retail Insights</h1>
+    <span class="subtitle">Ask your sales data anything</span>
+  </div>
+  <div class="header-right">
+    <span class="badge">⚡ Powered by Exasol</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="kpi-row" id="kpi-row">
+    <div class="kpi-card"><div class="kpi-label">Total Revenue</div><div class="kpi-value" id="kpi-revenue">—</div></div>
+    <div class="kpi-card"><div class="kpi-label">Total Orders</div><div class="kpi-value" id="kpi-orders">—</div></div>
+    <div class="kpi-card"><div class="kpi-label">Top Product</div><div class="kpi-value" id="kpi-top-product">—</div></div>
+    <div class="kpi-card"><div class="kpi-label">MoM Growth</div><div class="kpi-value" id="kpi-growth">—</div></div>
+  </section>
+
+  <section class="charts-row">
+    <div class="card chart-card">
+      <h2>Revenue Trend</h2>
+      <canvas id="trendChart"></canvas>
+    </div>
+    <div class="card chart-card">
+      <h2>Top 5 Products</h2>
+      <canvas id="topProductsChart"></canvas>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Restock Alerts</h2>
+    <div id="restock-list" class="restock-list">Loading…</div>
+  </section>
+
+  <section class="card benchmark-card">
+    <h2>Query Speed Demo</h2>
+    <p>Run a full-table scan and see how fast Exasol answers it.</p>
+    <button id="benchmark-btn" class="btn">Run Benchmark</button>
+    <div id="benchmark-result" class="benchmark-result"></div>
+  </section>
+
+  <section class="card ask-card">
+    <h2>Ask a Question</h2>
+    <div class="example-buttons">
+      <button class="btn-secondary example-q">What were our top products last month?</button>
+      <button class="btn-secondary example-q">Which country is generating the most revenue?</button>
+      <button class="btn-secondary example-q">What's our average order value trend?</button>
+      <button class="btn-secondary example-q">Which products need restocking?</button>
+    </div>
+    <div class="ask-input-row">
+      <input type="text" id="question-input" placeholder="e.g. Which region is growing fastest?" />
+      <button id="ask-btn" class="btn">Ask</button>
+    </div>
+    <div id="ask-answer" class="ask-answer"></div>
+    <canvas id="askChart" class="ask-chart" style="display:none;"></canvas>
+    <details id="sql-details" class="sql-details" style="display:none;">
+      <summary>Show SQL that was run</summary>
+      <pre id="sql-text"></pre>
+    </details>
+  </section>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

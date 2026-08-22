@@ -1,0 +1,6 @@
+.env
+exasol/
+__pycache__/
+*.pyc
+synthetic_sales.csv
+node_modules/
