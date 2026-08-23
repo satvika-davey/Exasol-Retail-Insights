@@ -1,80 +1,164 @@
-# Retail/E-commerce Demand & Inventory Insights Platform
+# 🛍️ Retail Insights
 
-Built for the Exasol AI Build Challenge 2026. Ask natural-language
-questions about sales/inventory data, get back KPI cards, charts,
-and a sentence answer — powered by Exasol as the analytics database.
+**Ask your retail data questions in plain English. Get real SQL-backed answers, instantly.**
 
-## ⚠️ Read this before you sign up for anything
+Retail Insights is a natural-language analytics dashboard built on **Exasol**, powered by an **LLM-driven NL-to-SQL engine**. Instead of writing SQL or digging through spreadsheets, ask questions like *"which product has the highest profit margin?"* or *"which country has the highest number of orders?"* and get a real, data-backed answer — generated live against your actual database.
 
-Exasol has **two** free hosted options and they are not interchangeable:
+Built by **Team SAKS** for the **Exasol AI Build Challenge 2026**.
 
-| Option | What it is | Can you load your own data? |
-|---|---|---|
-| **Exasol SaaS free trial** (`cloud.exasol.com/signup`) | You create a real, private database cluster in Exasol's cloud | **Yes** — this is what this project uses |
-| **Public demo system** | A 30-day, static, shared demo with preloaded sample data | **No** — read-only shared environment, not for your own table |
+---
 
-Use the **SaaS trial**, not the public demo. If someone on the team
-already signed up for the public demo thinking it was the same thing,
-that's an hour lost re-signing-up — check this first thing this morning.
+### 🎥 Demo Video
 
-Also: a SaaS cluster takes **~15 minutes to provision** after you
-create it, and **auto-stops after 120 minutes of inactivity** by default.
-If the team breaks for lunch, expect the cluster to be stopped when you
-come back — that's normal, not a bug, just restart it from the console.
+[**Watch the demo here**](https://www.youtube.com/watch?v=I0uawXPWKeE) — *link to be added*
 
-## Setup — Exasol SaaS trial (Person 1, do this FIRST)
+---
 
-1. Go to `https://cloud.exasol.com/signup` and sign up with a work/college
-   email if a personal one is rejected. Verify via the email you receive.
-2. Sign in — you'll be prompted to add your first database. Pick any AWS
-   region (closest to you is fine for a demo).
-3. Wait for cluster status to go from "Creating" to ready (~15 min) —
-   use this time to start on `db/schema.sql` and `data/generate_synthetic_data.py`.
-4. From the database's connection page, copy: host, port (usually 8563),
-   username, password. Put these into `backend/.env` (copy from `.env.example`).
-5. Agree with the team on ONE schema name (`RETAIL`, already set as the
-   default in `schema.sql` and `.env.example`) so nobody's test run
-   collides with anyone else's.
-6. Sanity-check the connection before building anything else:
-   ```bash
-   python -c "
-   import pyexasol, os
-   from dotenv import load_dotenv
-   load_dotenv()
-   c = pyexasol.connect(dsn=f'{os.environ[\"EXASOL_HOST\"]}:{os.environ[\"EXASOL_PORT\"]}',
-                         user=os.environ['EXASOL_USER'], password=os.environ['EXASOL_PASSWORD'],
-                         schema=os.environ.get('EXASOL_SCHEMA','RETAIL'), encryption=True)
-   print(c.execute('SELECT 1').fetchone())
-   "
-   ```
-   Keep this snippet handy — if the cluster auto-stops mid-hackathon,
-   this is the fastest way to confirm "is it actually down" vs. a code bug.
+## ✨ Why Retail Insights?
 
-## Load the schema and data
+Retail teams sit on huge amounts of transactional data but most people who need answers from it — merchandisers, category managers, ops leads — can't write SQL. Retail Insights closes that gap:
 
-```bash
-cd db
-# run schema.sql against your Exasol instance (via the web SQL console,
-# or via a quick pyexasol script — either works)
+- **No SQL required** — ask questions in plain English, get accurate answers.
+- **Built on Exasol** — a high-performance analytics database, so queries run fast even at scale (200K+ rows and growing).
+- **Real business metrics out of the box** — revenue, growth, profit margin, restock risk, product benchmarking — not just a chatbot wrapper.
+- **Handles both data questions and theory questions** — ask "which product has the highest margin?" or "what's the difference between gross and net margin?" and get a correct answer either way.
+- **Safe by design** — every LLM-generated query is validated before it touches the database (table allowlist, no destructive statements).
+- **Actually explainable** — answers are grounded in real query results, not hallucinated summaries, with an option to view the exact SQL that was run.
 
-cd ../data
-pip install -r ../backend/requirements.txt
-python generate_synthetic_data.py        # only if you don't have a real CSV yet
-python load_data.py synthetic_sales.csv  # or your real dataset's path
+---
+
+## 🚀 Features
+
+| Feature | What it does |
+|---|---|
+| 📊 **KPI Dashboard** | Revenue, order volume, and month-over-month growth at a glance |
+| 📈 **Sales Trend** | Visualizes sales over time to spot seasonality and momentum |
+| 🏆 **Top Products** | Ranks best-selling products by revenue and volume |
+| 💰 **Profit & Margin Analysis** | Surfaces which products and categories are actually profitable, not just high-revenue |
+| ⚠️ **Restock Alerts** | Flags products trending toward stockouts based on recent sales velocity |
+| 🌍 **Country Benchmarking** | Compares performance across markets/countries |
+| ⚡ **Query Speed Demo** | One-click benchmark showing Exasol scanning 200,000+ rows in ~2 seconds |
+| 💬 **Ask Anything (NL-to-SQL)** | Type a question in plain English → LLM generates SQL → runs on Exasol → returns a natural-language answer. Also answers general retail-theory questions (e.g. "what is basket analysis?") without needing the database. |
+
+---
+
+## 🧠 How It Works
+
+1. You type a question into the dashboard (e.g. *"which product has the highest profit margin?"*).
+2. The backend sends your question, plus the database schema, to an LLM (via Groq) with strict instructions to produce **valid Exasol SQL only** — or, for conceptual/theory questions, to answer directly from its own knowledge.
+3. If SQL is generated, it's validated first — checked against an allowlist of tables and blocked from any destructive operations — before it's run.
+4. The query executes directly against **Exasol**, and the result is turned back into a plain-English answer.
+5. The dashboard renders it instantly, alongside the underlying data and (optionally) the exact SQL that was run.
+
+---
+
+## 🏗️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Database** | [Exasol](https://www.exasol.com/) (SaaS trial) — high-performance in-memory analytics database |
+| **Backend Framework** | [FastAPI](https://fastapi.tiangolo.com/) (Python) |
+| **Backend Language / Runtime** | Python 3.12 |
+| **Database Driver** | [pyexasol](https://github.com/exasol/pyexasol) |
+| **LLM Provider** | [Groq](https://groq.com/) — running `openai/gpt-oss-120b` |
+| **LLM Client** | Groq Python SDK |
+| **Frontend** | HTML5, CSS3, vanilla JavaScript (no framework, no build step) |
+| **Charting** | [Chart.js](https://www.chartjs.org/) (v4.4.1) |
+| **Data** | Synthetic retail sales dataset (200,000+ rows) — orders, products, customers, countries, revenue, cost, and profit fields |
+| **Environment / Tooling** | Python venv, python-dotenv for config, Git/GitHub for version control |
+| **Dev Environment** | Windows, PowerShell, VS Code |
+
+---
+
+## 📁 Project Structure
+
+```
+exasol-retail-insights/
+├── data/
+│   ├── load_data.py                # Loads generated CSV data into Exasol
+│   └── generate_synthetic_data.py  # Generates the synthetic sales dataset
+├── db/
+│   ├── schema.sql                  # RETAIL.sales table definition
+│   └── queries.sql                 # Reference/example SQL queries
+├── backend/
+│   ├── main.py                     # FastAPI app — /kpis /trend /top-products
+│   │                                #   /restock-alerts /benchmark /ask
+│   ├── llm_client.py               # Groq LLM client, NL-to-SQL prompt, SQL validator
+│   ├── requirements.txt            # Backend dependencies
+│   ├── .env                        # Real credentials (never committed)
+│   └── .env.example                # Placeholder env file (safe to commit)
+├── frontend/
+│   ├── index.html                  # Dashboard UI
+│   ├── style.css                   # Styling
+│   └── app.js                      # Frontend logic + Chart.js visualizations
+├── README.md
+├── PITCH.md
+└── .gitignore
 ```
 
-## Run the backend
+---
+
+## ⚙️ Setup & Installation
+
+### Prerequisites
+
+- Python 3.12 (recommended — newer versions may lack compiled wheels for some dependencies)
+- An [Exasol SaaS](https://cloud.exasol.com) database
+- A [Groq API key](https://console.groq.com) (free tier)
+- Git
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/satvika-davey/Exasol-Retail-Insights.git
+cd Exasol-Retail-Insights/exasol-retail-insights
+```
+
+### 2. Set up the virtual environment
+
+```bash
+py -3.12 -m venv exasol
+exasol\Scripts\activate        # Windows
+pip install -r backend/requirements.txt
+```
+
+### 3. Configure environment variables
+
+Copy `.env.example` to `.env` inside `backend/` and fill in:
+
+```
+EXASOL_HOST=your-exasol-host
+EXASOL_PORT=8563
+EXASOL_USER=your-username
+EXASOL_PASSWORD=your-password
+GROQ_API_KEY=your-groq-api-key
+```
+
+### 4. Create the schema
+
+Open a Worksheet on [cloud.exasol.com](https://cloud.exasol.com), paste in the contents of `db/schema.sql`, and run it (tick **"Run all"** to execute the full multi-statement script).
+
+### 5. Generate and load data
+
+```bash
+python data/generate_synthetic_data.py
+python data/load_data.py
+```
+
+---
+
+## ▶️ Running the App
+
+### Run the backend
 
 ```bash
 cd exasol-retail-insights
 cd backend
-exasol\Scripts\activate        # Windows
+exasol/Scripts/activate        # Windows
 uvicorn main:app --reload --port 8000
 ```
 
-Visit `http://localhost:8000/health` — should return `{"status": "ok"}`.
-
-## Run the frontend
+### Run the frontend
 
 No build step needed — it's plain HTML/CSS/JS.
 
@@ -84,49 +168,55 @@ cd frontend
 python -m http.server 5500
 ```
 
-Open `http://localhost:5500` in a browser. The frontend expects the
-backend at `http://localhost:8000` (see `API_BASE` in `app.js`).
+Open `http://localhost:5500` in a browser.
 
-## Environment variables
+---
 
-See `backend/.env.example` for the full list. You need Exasol
-connection details plus one LLM provider key (Groq recommended —
-fast, free tier, no CUDA/GPU setup required on any teammate's laptop).
+## 💡 Example Questions to Ask
 
-## Project structure
+- "Which product has the highest profit margin?"
+- "Which country has the highest number of orders?"
+- "What were our top 5 products by revenue last month?"
+- "Which products are at risk of stocking out?"
+- "How does revenue this month compare to last month?"
+- "What is basket analysis in retail?"
+- "Explain the difference between gross margin and net margin"
 
-```
-exasol-retail-insights/
-├── data/
-│   ├── load_data.py
-│   └── generate_synthetic_data.py
-├── db/
-│   ├── schema.sql
-│   └── queries.sql
-├── backend/
-│   ├── main.py
-│   ├── llm_client.py
-│   ├── requirements.txt
-│   └── .env.example
-├── frontend/
-│   ├── index.html
-│   ├── style.css
-│   └── app.js
-├── PITCH.md
-└── README.md
-```
+---
 
-## Known risks (read before demo day)
+## 🔒 Security Notes
 
-- **Free LLM APIs rate-limit.** If all 4 of you hit `/ask` at once near
-  demo time, expect throttling. Stagger testing; only re-run the final
-  demo questions once, right before presenting.
-- **The NL-to-SQL feature is the least predictable part of this app.**
-  Don't build your live demo around trusting it blind — the 3–4 example
-  question buttons in the frontend exist as a guaranteed-working fallback.
-- **SQL safety is non-negotiable.** `main.py`'s `validate_sql()` blocks
-  DDL/DML keywords AND restricts queries to the `sales` table only —
-  don't remove either check to save time.
-- Git from the start. Four people editing the same files without version
-  control is how hours get lost at 6pm.
-- Never commit `.env` — only `.env.example`. Add `.env` to `.gitignore`.
+- All LLM-generated SQL is validated against a table allowlist before execution — no destructive statements can run.
+- Raw database errors (including host/connection details) are never sent to the client — only logged server-side.
+- `.env` is git-ignored; only `.env.example` (placeholders) is committed.
+
+---
+
+## 🔮 Future Improvements
+
+- **Multi-turn conversation memory** — let users ask follow-up questions (e.g. "now break that down by country") without repeating context.
+- **Query result caching** — cache frequent question/SQL pairs to cut down on repeated LLM calls and speed up common lookups.
+- **Role-based access** — restrict which tables/columns different user roles can query.
+- **Anomaly detection** — proactively flag unusual sales dips/spikes instead of waiting for a question.
+- **Export & sharing** — let users export chart/answer results as PDF or share a link to a specific query result.
+- **Voice input** for the "Ask a Question" feature.
+- **Broader dataset support** — allow uploading a store's own CSV/data instead of only the synthetic dataset.
+- **Deployment on Exasol Personal** (AWS/Azure) for a fully self-hosted production version, beyond the current SaaS trial used for this submission.
+
+---
+
+## 👥 Team
+
+**Team SAKS**
+
+---
+
+## 📌 Status
+
+Built for the Exasol AI Build Challenge 2026. Core dashboard and NL-to-SQL engine are fully functional against live Exasol data.
+
+---
+
+## 📄 License
+
+Built for the Exasol AI Build Challenge 2026 submission.

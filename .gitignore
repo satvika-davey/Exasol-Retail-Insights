@@ -1,5 +1,6 @@
-.env
+﻿.env
 exasol/
+backend/exasol/
 __pycache__/
 *.pyc
 synthetic_sales.csv

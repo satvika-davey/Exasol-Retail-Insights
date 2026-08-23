@@ -33,3 +33,42 @@ CREATE INDEX IF NOT EXISTS idx_sales_country ON sales (country);
 -- Note: Exasol auto-manages statistics/indices internally in most
 -- editions; explicit indices above are harmless if ignored by your
 -- trial tier, and free documentation if a judge asks about design.
+CREATE TABLE sales (
+    product_id INTEGER,
+    product_name VARCHAR(100),
+    country VARCHAR(50),
+    quantity INTEGER,
+    sales DECIMAL(12,2),
+    category VARCHAR(100),
+    customer_id INTEGER,
+    order_date DATE,
+    profit DECIMAL(12,2),
+    discount DECIMAL(5,2)
+);
+ALTER TABLE sales ADD COLUMN category VARCHAR(100);
+ALTER TABLE sales ADD COLUMN customer_id INTEGER;
+ALTER TABLE sales ADD COLUMN order_date DATE;
+ALTER TABLE sales ADD COLUMN profit DECIMAL(12,2);
+ALTER TABLE sales ADD COLUMN discount DECIMAL(5,2);
+CREATE TABLE customers (
+    customer_id INTEGER,
+    customer_name VARCHAR(200),
+    country VARCHAR(100),
+    customer_type VARCHAR(50)
+);
+
+CREATE TABLE products (
+    product_id INTEGER,
+    product_name VARCHAR(200),
+    category VARCHAR(100),
+    price DECIMAL(12,2)
+);
+
+CREATE TABLE orders (
+    order_id INTEGER,
+    customer_id INTEGER,
+    product_id INTEGER,
+    order_date DATE,
+    quantity INTEGER,
+    total_amount DECIMAL(12,2)
+);
