@@ -10,7 +10,7 @@ Built by **Team SAKS** for the **Exasol AI Build Challenge 2026**.
 
 ### 🎥 Demo Video
 
-[**Watch the demo here**](https://www.youtube.com/watch?v=I0uawXPWKeE) — *link to be added*
+[**Watch the demo here**](https://www.youtube.com/watch?v=I0uawXPWKeE)
 
 ---
 
