@@ -12,7 +12,12 @@ Built by **Team SAKS** for the **Exasol AI Build Challenge 2026**.
 
 [**Watch the demo here**](https://www.youtube.com/watch?v=I0uawXPWKeE)
 
+### PPT/PDF
+
+[**Check out the ppt here**](https://acrobat.adobe.com/id/urn:aaid:sc:AP:108f14a6-a27e-444f-84f1-8e7425acd012)
+
 ---
+
 
 ## ✨ Why Retail Insights?
 
