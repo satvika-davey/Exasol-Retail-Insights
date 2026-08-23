@@ -3,7 +3,7 @@
 Built for the Exasol AI Build Challenge 2026. Ask natural-language
 questions about sales/inventory data, get back KPI cards, charts,
 and a sentence answer — powered by Exasol as the analytics database.
-
+uyfhoifcxfghguif
 ## ⚠️ Read this before you sign up for anything
 
 Exasol has **two** free hosted options and they are not interchangeable:
