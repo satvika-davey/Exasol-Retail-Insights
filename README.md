@@ -12,7 +12,7 @@ Exasol has **two** free hosted options and they are not interchangeable:
 |---|---|---|
 | **Exasol SaaS free trial** (`cloud.exasol.com/signup`) | You create a real, private database cluster in Exasol's cloud | **Yes** — this is what this project uses |
 | **Public demo system** | A 30-day, static, shared demo with preloaded sample data | **No** — read-only shared environment, not for your own table |
-
+sd
 Use the **SaaS trial**, not the public demo. If someone on the team
 already signed up for the public demo thinking it was the same thing,
 that's an hour lost re-signing-up — check this first thing this morning.
