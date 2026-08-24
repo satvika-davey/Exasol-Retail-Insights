@@ -21,6 +21,10 @@ Built by **Team SAKS** for the **Exasol AI Build Challenge 2026**.
 
 [**Check out the run guide here**](https://acrobat.adobe.com/id/urn:aaid:sc:AP:2ca17833-ad72-4cf8-a204-0ae1e439df91)
 
+
+**###Problem, Solution and usage of Exasol Personal**
+
+[**Check out the project's Problem, Solution and usage of Exasol Personal **](https://acrobat.adobe.com/id/urn:aaid:sc:AP:3d223948-3489-49a4-a2c2-08f27abc50cf)
 ---
 
 
