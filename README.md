@@ -16,6 +16,9 @@ Built by **Team SAKS** for the **Exasol AI Build Challenge 2026**.
 
 [**Check out the ppt here**](https://acrobat.adobe.com/id/urn:aaid:sc:AP:108f14a6-a27e-444f-84f1-8e7425acd012)
 
+
+###Run Guide
+[**Check out the run guide here**](https://acrobat.adobe.com/id/urn:aaid:sc:AP:2ca17833-ad72-4cf8-a204-0ae1e439df91)
 ---
 
 
